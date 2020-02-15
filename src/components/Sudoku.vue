@@ -7,8 +7,8 @@
           class="cell"
           v-for="(cell, colIndex) in row"
           :key="colIndex"
-          v-bind:class="{'border-right': colIndex===2||colIndex===5,'border-bottom': rowIndex===2||rowIndex===5}"
-        >{{ cell }}</div>
+          v-bind:class="{'border-right': colIndex===2||colIndex===5,'border-bottom': rowIndex===2||rowIndex===5, 'startValue':cell.startValue }"
+        >{{ cell.value }}</div>
       </div>
     </div>
   </div>
@@ -34,7 +34,16 @@ export default {
       //build-in method in the sudoku.js
       const boardString = sudoku.generate(this.difficulty);
       //build-in method in the sudoku.js
-      this.puzzle = sudoku.board_string_to_grid(boardString);
+      const boardGrid = sudoku.board_string_to_grid(boardString);
+
+      this.puzzle = boardGrid.map(row =>
+        row.map(cell => {
+          return {
+            value: cell !== "." ? parseInt(cell) : null,
+            startValue: cell !== "."
+          };
+        })
+      );
       console.log("puzzle:", this.puzzle);
     }
   }
@@ -71,5 +80,11 @@ export default {
 .cell.border-bottom {
   border-bottom-width: 3px;
   border-bottom-color: rgb(139, 139, 139);
+}
+.cell.startValue {
+  font-weight: bold;
+}
+.cell:not(.startValue) {
+  cursor: pointer;
 }
 </style>
