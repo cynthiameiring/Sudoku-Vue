@@ -1,6 +1,11 @@
 <template>
   <div class="sudoku">
-    <h2>Sudoku</h2>
+    <div class="row">
+      <h2>Sudoku</h2>
+      <select v-model="difficulty" @change="generatePuzzle()">
+        <option v-for="(display,level) in levels" :key="level" :value="level">{{display}}</option>
+      </select>
+    </div>
     <div class="grid">
       <div class="row" v-for="(row, rowIndex) in puzzle" v-bind:key="rowIndex">
         <div
@@ -42,7 +47,15 @@ export default {
       puzzle: [],
       difficulty: "easy",
       activeRow: null,
-      activeCol: null
+      activeCol: null,
+      levels: {
+        easy: "Easy",
+        medium: "Medium",
+        hard: "Hard",
+        "very-hard": "Very Hard",
+        insane: "Insane",
+        inhuman: "Inhuman"
+      }
     };
   },
   mounted() {
