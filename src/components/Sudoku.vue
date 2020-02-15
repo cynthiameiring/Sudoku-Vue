@@ -16,6 +16,15 @@
         >{{ cell.value }}</div>
       </div>
     </div>
+    <div class="row">
+      <button
+        type="button"
+        class="btn"
+        v-for="value in Array(9).keys()"
+        :key="value"
+        :disabled="activeRow===null || activeCol===null"
+      >{{value+1}}</button>
+    </div>
   </div>
 </template>
 
@@ -72,9 +81,15 @@ export default {
 
 <style scoped>
 .sudoku {
-  width: calc(9 * 40px);
+  width: 100%;
+  max-width: 420px;
   margin: 0.5rem auto;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.grid {
+  width: calc(9 * 40px);
+  margin: 0.5rem auto 1rem;
 }
 .row {
   display: flex;
@@ -110,5 +125,14 @@ export default {
 .cell.active {
   background-color: blue;
   color: white;
+}
+.btn {
+  width: 38px;
+  height: 38px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.btn:disabled {
+  cursor: not-allowed;
 }
 </style>
