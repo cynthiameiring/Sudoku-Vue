@@ -6,8 +6,13 @@
         <div
           class="cell"
           v-for="(cell, colIndex) in row"
-          :key="colIndex"
-          v-bind:class="{'border-right': colIndex===2||colIndex===5,'border-bottom': rowIndex===2||rowIndex===5, 'startValue':cell.startValue }"
+          @click="setCellActive(rowIndex, colIndex, cell.startValue)"
+          v-bind:key="colIndex"
+          v-bind:class="{
+            'border-right': colIndex===2||colIndex===5,
+            'border-bottom': rowIndex===2||rowIndex===5, 
+            'startValue':cell.startValue,
+            'active':activeRow===rowIndex&&activeCol===colIndex }"
         >{{ cell.value }}</div>
       </div>
     </div>
@@ -23,7 +28,9 @@ export default {
   data() {
     return {
       puzzle: [],
-      difficulty: "easy"
+      difficulty: "easy",
+      activeRow: null,
+      activeCol: null
     };
   },
   mounted() {
@@ -40,11 +47,24 @@ export default {
         row.map(cell => {
           return {
             value: cell !== "." ? parseInt(cell) : null,
+            //startvalue is true or false
             startValue: cell !== "."
           };
         })
       );
       console.log("puzzle:", this.puzzle);
+    },
+    setCellActive(row, col, startValue) {
+      if (startValue) {
+        return;
+      }
+      if (this.activeRow === row && this.activeCol === col) {
+        this.activeRow = null;
+        this.activeCol = null;
+        return;
+      }
+      this.activeRow = row;
+      this.activeCol = col;
     }
   }
 };
@@ -86,5 +106,9 @@ export default {
 }
 .cell:not(.startValue) {
   cursor: pointer;
+}
+.cell.active {
+  background-color: blue;
+  color: white;
 }
 </style>
