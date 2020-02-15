@@ -1,0 +1,60 @@
+.sudoku {
+  width: 100%;
+  max-width: 420px;
+  margin: 0.5rem auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.grid {
+  width: calc(9 * 40px);
+  margin: 0.5rem auto 1rem;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cell {
+  display: block;
+  width: 40px;
+  height: 40px;
+  /* border size included in the widht: */
+  box-sizing: border-box;
+  border: 1px solid #bbb;
+  font-size: 24px;
+  line-height: 40px;
+  text-align: center;
+  cursor: default;
+}
+.cell.border-right {
+  border-right-width: 3px;
+  border-right-color: rgb(139, 139, 139);
+}
+.cell.border-bottom {
+  border-bottom-width: 3px;
+  border-bottom-color: rgb(139, 139, 139);
+}
+.cell.startValue {
+  font-weight: bold;
+}
+.cell:not(.startValue) {
+  cursor: pointer;
+}
+/* if an cell is active AND invalid, the active style will overrule */
+.cell.active {
+  background-color: blue !important;
+  color: white;
+}
+.cell.invalid {
+  background-color: red;
+  color: white;
+}
+.btn {
+  width: 38px;
+  height: 38px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.btn:disabled {
+  cursor: not-allowed;
+}
