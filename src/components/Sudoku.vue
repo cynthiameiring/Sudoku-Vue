@@ -2,6 +2,7 @@
   <div class="sudoku">
     <div class="row">
       <h2>Sudoku</h2>
+      <strong>{{formattedTime}}</strong>
       <select v-model="difficulty" @change="generatePuzzle()">
         <option v-for="(display,level) in levels" :key="level" :value="level">{{display}}</option>
       </select>
@@ -55,12 +56,29 @@ export default {
         "very-hard": "Very Hard",
         insane: "Insane",
         inhuman: "Inhuman"
-      }
+      },
+      seconds: 0,
+      timer: null
     };
   },
   mounted() {
     this.generatePuzzle();
   },
+  computed: {
+    formattedTime() {
+      let min = Math.floor(this.seconds / 60);
+      let sec = this.seconds % 60;
+      if (min < 10) {
+        min = `0${min}`;
+      }
+      if (sec < 10) {
+        sec = `0${sec}`;
+      }
+
+      return `${min}:${sec}`;
+    }
+  },
+
   methods: {
     generatePuzzle() {
       //build-in method in the sudoku.js
@@ -78,6 +96,11 @@ export default {
         })
       );
       console.log("puzzle:", this.puzzle);
+      this.seconds = 0;
+      clearInterval(this.timer);
+      this.timer = setInterval(() => {
+        this.seconds++;
+      }, 1000);
     },
     setCellActive(row, col, startValue) {
       if (startValue) {
